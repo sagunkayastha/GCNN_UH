@@ -20,14 +20,14 @@ training_list = all_files[:k]
 validation_list = all_files[k:]
 
 # copy training
-for file in tqdm(training_list):
-    source = os.path.join(data_path, file)
-    dest = os.path.join("training_data,training")
-    shutil.copy(source, dest)
+# for file in tqdm(training_list):
+#     source = os.path.join(data_path, file)
+#     dest = os.path.join("training_data","training")
+#     shutil.copy(source, dest)
     
 # copy validation
 for file in tqdm(validation_list):
     source = os.path.join(data_path, file)
-    dest = os.path.join("training_data,validation")
+    dest = os.path.join("training_data","validation")
     
     shutil.copy(source, dest)

@@ -1,52 +1,61 @@
+#!/usr/bin/python
+
 import argparse
 import os
 from random import shuffle
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--folder_path', default='../training_data', type=str,
+parser.add_argument('--folder_path', default='./training_data', type=str,
                     help='The folder path')
 parser.add_argument('--train_filename', default='./data_flist/train_shuffled.flist', type=str,
-                    help='The train filename.')
+                    help='The output filename.')
 parser.add_argument('--validation_filename', default='./data_flist/validation_shuffled.flist', type=str,
-                    help='The validation filename.')
+                    help='The output filename.')
 parser.add_argument('--is_shuffled', default='1', type=int,
-                    help='Needed to be shuffled')
+                    help='Needed to shuffle')
 
 if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    # get the list of directories and separate them into 2 types: training and validation
-    training_dirs = os.listdir(args.folder_path + "/training")
-    validation_dirs = os.listdir(args.folder_path + "/validation")
+    # get the list of directories
+    dirs = os.listdir(args.folder_path)
+    dirs_name_list = []
 
     # make 2 lists to save file paths
     training_file_names = []
     validation_file_names = []
 
-    # append all files into 2 lists
-    for training_dir in training_dirs:
-        # append each file into the list file names
-        training_folder = os.listdir(args.folder_path + "/training" + "/" + training_dir)
-        for training_item in training_folder:
-            # modify to full path -> directory
-            training_item = args.folder_path + "/training" + "/" + training_dir + "/" + training_item
-            training_file_names.append(training_item)
+    # print all directory names
+    # for dir_item in dirs:
+    #     # modify to full path -> directory
+    #     dir_item = os.path.join(args.folder_path, dir_item)
+    #     # print(dir_item)
+    
+    cwd = os.getcwd()
+    training_folder = os.listdir(os.path.join(cwd, args.folder_path, "training"))
+    
+    for training_item in training_folder:
+        if "jpg" not in training_item:
+            continue
+        training_item = os.path.join(cwd, args.folder_path, "training", training_item)
+        training_file_names.append(training_item)
 
-    # append all files into 2 lists
-    for validation_dir in validation_dirs:
-        # append each file into the list file names
-        validation_folder = os.listdir(args.folder_path + "/validation" + "/" + validation_dir)
-        for validation_item in validation_folder:
-            # modify to full path -> directory
-            validation_item = args.folder_path + "/validation" + "/" + validation_dir + "/" + validation_item
-            validation_file_names.append(validation_item)
-
+    
+    validation_folder = os.listdir(os.path.join(cwd, args.folder_path,  "validation"))
+    for validation_item in validation_folder:
+        if "jpg" not in training_item:
+            continue
+        validation_item = os.path.join(cwd, args.folder_path, "validation", validation_item)
+        validation_file_names.append(validation_item)
     # print all file paths
     for i in training_file_names:
         print(i)
     for i in validation_file_names:
         print(i)
+
+    
+    # This would print all the files and directories
 
     # shuffle file names if set
     if args.is_shuffled == 1:

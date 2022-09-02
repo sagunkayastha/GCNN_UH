@@ -33,9 +33,11 @@ if __name__ == "__main__":
     if FLAGS.guided:
         fnames = [(fname, fname[:-4] + '_edge.jpg') for fname in fnames]
         img_shapes = [img_shapes, img_shapes]
+        
     data = ng.data.DataFromFNames(
         fnames, img_shapes, random_crop=FLAGS.random_crop,
         nthreads=FLAGS.num_cpus_per_job)
+    
     images = data.data_pipeline(FLAGS.batch_size)
     # main model
     model = InpaintCAModel()

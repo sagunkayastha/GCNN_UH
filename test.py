@@ -61,3 +61,4 @@ if __name__ == "__main__":
         print('Model loaded.')
         result = sess.run(output)
         cv2.imwrite(args.output, result[0][:, :, ::-1])
+        

@@ -1,5 +1,5 @@
 model_logs
 logs
 data
-training_data
-data_flist/*
+__pycache__
+*.zip

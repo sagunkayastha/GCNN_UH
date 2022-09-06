@@ -3,8 +3,10 @@ import glob
 
 import tensorflow as tf
 import neuralgym as ng
+from utils.utils import multigpu_graph_def
 
 from inpaint_model import InpaintCAModel
+
 
 
 if __name__ == "__main__":

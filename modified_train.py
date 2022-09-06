@@ -3,7 +3,7 @@ import glob
 
 import tensorflow as tf
 import neuralgym as ng
-from inpaint_model import InpaintCAModel
+from model.inpaint_model import InpaintCAModel
 
 from utils.callbacks import callbacks
 from utils.utils import multigpu_graph_def, static_validation
@@ -47,9 +47,10 @@ class Main:
     def run(self):
         data, images = self.create_data()
         trainer = self.build_model(data, images)
+        print("Training started")
         trainer.train()
     
 if __name__ == "__main__":
-    obj = Main("inpaint.yml")
+    obj = Main("configs/inpaint.yml")
     obj.run()
     

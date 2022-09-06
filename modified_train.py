@@ -24,8 +24,6 @@ class Main:
             nthreads=self.FLAGS.num_cpus_per_job)
     
         images = data.data_pipeline(self.FLAGS.batch_size)
-        
-        
         return data, images
         
     def build_model(self, data, images):
@@ -34,14 +32,15 @@ class Main:
         
         if self.FLAGS.val:
             static_inpainted_images = static_validation(self.FLAGS, self.img_shapes, self.model)
-            
         
         ### Learning rate and Optimizer 
-        lr = tf.get_variable('lr', shape=[], trainable=False,
-                             initializer=tf.constant_initializer(1e-4))
-        d_optimizer = tf.train.AdamOptimizer(lr, beta1=0.5, beta2=0.999)
+        lr = tf.compat.v1.get_variable(
+                'lr', shape=[], trainable=False,
+                initializer=tf.compat.v1.constant_initializer(1e-4))
+        d_optimizer = tf.compat.v1.train.AdamOptimizer(lr, beta1=0.5, beta2=0.999)
         g_optimizer = d_optimizer
         
+        # Creating model with callbacks. Uses neuralgym callbacks
         trainer = callbacks(self.model, self.FLAGS, g_vars, d_vars, data, losses, d_optimizer, g_optimizer)
         return trainer
         

@@ -37,13 +37,25 @@ def callbacks(model,  FLAGS,
         spe=FLAGS.train_spe,
         log_dir=FLAGS.log_dir,
     )
+    # trainer = ng.train.Trainer(
+        
+    #     optimizer=g_optimizer,
+    #     var_list=g_vars,
+    #     max_iters=FLAGS.max_iters,
+    #     graph_def=multigpu_graph_def,
+    #     grads_summary=False,
+    #     gradient_processor=None,
+    #     graph_def_kwargs={
+    #         'model': model, 'FLAGS': FLAGS, 'data': data, 'loss_type': 'g'},
+    #     spe=FLAGS.train_spe,
+    #     log_dir=FLAGS.log_dir,
+    # )
     
     trainer.add_callbacks([
-    discriminator_training_callback,
-    ng.callbacks.WeightsViewer(),
-    ng.callbacks.ModelRestorer(trainer.context['saver'], dump_prefix=FLAGS.model_restore+'/snap', optimistic=True),
-    ng.callbacks.ModelSaver(FLAGS.train_spe, trainer.context['saver'], FLAGS.log_dir+'/snap'),
-    ng.callbacks.SummaryWriter((FLAGS.val_psteps//1), trainer.context['summary_writer'], tf.summary.merge_all()),
+        discriminator_training_callback,
+        ng.callbacks.WeightsViewer(),
+        ng.callbacks.ModelRestorer(trainer.context['saver'], dump_prefix=FLAGS.model_restore+'/snap', optimistic=True),
+        ng.callbacks.ModelSaver(FLAGS.train_spe, trainer.context['saver'], FLAGS.log_dir+'/snap'),
+        ng.callbacks.SummaryWriter((FLAGS.val_psteps//1), trainer.context['summary_writer'], tf.compat.v1.summary.merge_all()),
     ])
-
     return trainer
